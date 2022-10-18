@@ -388,13 +388,14 @@ resource "azurerm_subscription_policy_assignment" "assign_policy" {
   name                 = "policy-assignment-storage-eventhub"
   policy_definition_id = azurerm_policy_definition.storage_diaglogs.id
   subscription_id      = data.azurerm_subscription.current.id
+  location             = "eastus2"
   parameters           = <<PARAMETERS
     {
-      "profileName": {
-        "value": "eventnamespaceankur"
-      },
       "eventHubAuthorizationRuleId": {
         "value": "/subscriptions/f3d20c9f-3cb5-45df-b6a8-32f7f4e3d1b6/resourceGroups/sample-1/providers/Microsoft.EventHub/namespaces/eventnamespaceankur/authorizationRules/RootManageSharedAccessKey"
+      },
+	     "Location": {
+        "value": "eastus2"
       }
     }
   PARAMETERS
@@ -404,5 +405,6 @@ resource "azurerm_subscription_policy_assignment" "assign_policy" {
     identity_ids = [data.azurerm_user_assigned_identity.mi-cloudops-azpolicy.id]
 
   }
-  location = "eastus2"
+
 }
+
