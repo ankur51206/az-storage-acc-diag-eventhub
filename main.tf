@@ -15,7 +15,7 @@ data "azurerm_user_assigned_identity" "mi-cloudops-azpolicy" {
 }
 
 resource "azurerm_policy_definition" "storage_diaglogs" {
-  name         = "diag-logs-storage"
+  name         = "diag-logs-storage-eventhub"
   policy_type  = "Custom"
   mode         = "All"
   display_name = "enable diagnostic setting for storage account"
