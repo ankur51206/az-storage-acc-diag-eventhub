@@ -3,13 +3,13 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_management_group" "myroot" {
+data "azurerm_management_group" "baringsroot" {
   display_name = "ankur management group"
 }
 
 # My Provider finish
 
-data "azurerm_user_assigned_identity" "mycloudazpolicy" {
+data "azurerm_user_assigned_identity" "myazpolicy" {
   name                = "MyIdentity"
   resource_group_name = "sample-1"
 }
@@ -145,10 +145,6 @@ PARAMETERS
 		"allOf": [{
 				"field": "type",
 				"equals": "Microsoft.Storage/storageAccounts"
-			},
-			{
-				"field": "name",
-				"notLike": "diag*"
 			},
 			{
 				"field": "location",
@@ -388,23 +384,22 @@ resource "azurerm_subscription_policy_assignment" "assign_policy" {
   name                 = "policy-assignment-storage-eventhub"
   policy_definition_id = azurerm_policy_definition.storage_diaglogs.id
   subscription_id      = data.azurerm_subscription.current.id
-  location             = "eastus2"
+  location             = "eastus"
   parameters           = <<PARAMETERS
     {
       "eventHubAuthorizationRuleId": {
-        "value": "/subscriptions/f3d20c9f-3cb5-45df-b6a8-32f7f4e3d1b6/resourceGroups/sample-1/providers/Microsoft.EventHub/namespaces/eventnamespaceankur/authorizationRules/RootManageSharedAccessKey"
+        "value": "/subscriptions/f3d20c9f-3cb5-45df-b6a8-32f7f4e3d1b6/resourcegroups/sample-1/providers/Microsoft.EventHub/namespaces/myeventhubsank/authorizationrules/RootManageSharedAccessKey"
       },
 	     "Location": {
-        "value": "eastus2"
+        "value": "eastus"
       }
     }
   PARAMETERS
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [data.azurerm_user_assigned_identity.mycloudazpolicy.id]
+    identity_ids = [data.azurerm_user_assigned_identity.myazpolicy.id]
 
   }
 
 }
-
